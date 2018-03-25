@@ -37,6 +37,9 @@ private int reqCode = 1;
             }
         });
     }
+    /*SOURCE TO GET IMAGE FROM GALLERY
+    http://programmerguru.com/android-tutorial/how-to-pick-image-from-gallery/
+    * */
 
     //get picture from gallery
     private void getImage(){
