@@ -36,9 +36,17 @@ private int reqCode = 1;
 
             }
         });
+
+        //edit
+        findViewById(R.id.edit_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
     /*SOURCE TO GET IMAGE FROM GALLERY
-    http://programmerguru.com/android-tutorial/how-to-pick-image-from-gallery/
+    http://programmerguru.com/android-tutorial/how-to-pick-image-from-gallery/8
     * */
 
     //get picture from gallery
@@ -47,7 +55,7 @@ private int reqCode = 1;
         Intent getPicIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(getPicIntent, reqCode );
     }
-
+/*SELECT IMAGE*/
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
