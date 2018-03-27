@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -24,27 +27,31 @@ private int reqCode = 1;
         findViewById(R.id.openGallery_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 getImage();
             }
         });
 
-        //image
-        findViewById(R.id.picture_imageView).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                //image
+                findViewById(R.id.picture_imageView).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
 
-            }
-        });
-
+                    }
+                });
         //edit
+
         findViewById(R.id.edit_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+               Paint linePaint = new Paint();
+                linePaint.setColor(Color.BLACK);
 
             }
         });
     }
+
+
+
     /*SOURCE TO GET IMAGE FROM GALLERY
     http://programmerguru.com/android-tutorial/how-to-pick-image-from-gallery/8
     * */
