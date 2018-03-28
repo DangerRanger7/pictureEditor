@@ -32,19 +32,52 @@ private int reqCode = 1;
         });
 
                 //image
-                findViewById(R.id.picture_imageView).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.picture_imageView).setOnTouchListener(new View.OnTouchListener() {
                     @Override
-                    public void onClick(View view) {
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
 
+                        // DrawView drawView = DrawView;
+                        float actionDown_x, actionDown_y;
+                        float actionUp_x, actionUp_y;
+
+                        int action = motionEvent.getAction();
+                        switch (action) {
+                            case MotionEvent.ACTION_DOWN:
+                                actionDown_x = motionEvent.getX();
+                                actionDown_y = motionEvent.getY();
+                                break;
+
+                            case MotionEvent.ACTION_UP:
+                                actionUp_x = motionEvent.getX();
+                                actionUp_y = motionEvent.getY();
+                              //  canvas.drawLine(actionDown_x, actionDown_y, actionUp_x, actionUp_y);
+                                break;
+
+
+
+                            default:
+                                 break;
+                        }
+
+                        return false;
                     }
                 });
-        //edit
 
+
+        //edit
         findViewById(R.id.edit_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                Paint linePaint = new Paint();
                 linePaint.setColor(Color.BLACK);
+
+            }
+        });
+
+        //save button
+        findViewById(R.id.save_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
             }
         });
