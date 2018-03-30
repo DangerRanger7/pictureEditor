@@ -1,6 +1,7 @@
 package com.kierradangerfield.pictureeditor;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -19,6 +20,8 @@ import java.util.TimerTask;
 
 public class DrawView extends View {
 
+    private Bitmap bitmap;
+    private Canvas canvas;
     private Paint linePaint;
     private int currentWidth;
     private int currentHeight;

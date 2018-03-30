@@ -3,7 +3,9 @@ package com.kierradangerfield.pictureeditor;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
@@ -14,10 +16,17 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.net.URI;
 
 public class MainActivity extends Activity {
 private int reqCode = 1;
+static final int TAKE_PICTURE = 1;
+ImageView imageView;
+    private Bitmap bitmap;
+    private Canvas canvas;
+    private Paint linePaint;
+String path;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +45,8 @@ private int reqCode = 1;
                     @Override
                     public boolean onTouch(View view, MotionEvent motionEvent) {
 
+                        //DrawView drawView = findViewById(R.id.picture_imageView);
+                        //Canvas canvas = new Canvas();
                         // DrawView drawView = DrawView;
                         float actionDown_x, actionDown_y;
                         float actionUp_x, actionUp_y;
@@ -50,35 +61,58 @@ private int reqCode = 1;
                             case MotionEvent.ACTION_UP:
                                 actionUp_x = motionEvent.getX();
                                 actionUp_y = motionEvent.getY();
-                              //  canvas.drawLine(actionDown_x, actionDown_y, actionUp_x, actionUp_y);
+                               //canvas.drawLine(actionDown_x, actionDown_y, actionUp_x, actionUp_y);
                                 break;
-
-
 
                             default:
                                  break;
                         }
-
                         return false;
                     }
                 });
 
+        /*
+        * source
+        * https://stackoverflow.com/questions/15704205/how-to-draw-line-on-imageview-along-with-finger-in-android*/
 
         //edit
         findViewById(R.id.edit_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               Paint linePaint = new Paint();
-                linePaint.setColor(Color.BLACK);
+            //ImageView imageView =  findViewById(R.id.picture_imageView);
+                bitmap = Bitmap.createBitmap((int) imageView.getWidth(), (int) imageView.getHeight(), Bitmap.Config.ARGB_8888);
+                canvas = new Canvas(bitmap);
+               linePaint = new Paint();
+               linePaint.setColor(Color.BLACK);
+               linePaint.setStyle(Paint.Style.FILL);
+               //ImageView imageView = findViewById(R.id.drawView);
+               imageView.setImageBitmap(bitmap);
+               //imageView.setOnTouchListener(this);
 
             }
         });
 
-        //save button
+        /****************** SAVE BUTTON***************************************************************/
         findViewById(R.id.save_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                /*Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                File file = new File(path);
+                Uri uri = Uri.fromFile(file);
+                intent.setData(uri);
+                startActivity(intent);*/
+            }
+        });
+
+        /******TAKE PICTURE BUTTON*******************************************************************************************/
+        findViewById(R.id.takePicture_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (intent.resolveActivity(getPackageManager()) != null){
+                    startActivityForResult(intent, TAKE_PICTURE);
+                }
             }
         });
     }
@@ -112,7 +146,7 @@ private int reqCode = 1;
                 cursor.moveToFirst();
 
                 int columnIndex = cursor.getColumnIndex(image[0]);
-                String path = cursor.getString(columnIndex);
+                 path = cursor.getString(columnIndex);
                 cursor.close();
 
                 ImageView imageView = findViewById(R.id.picture_imageView);
