@@ -10,6 +10,7 @@ import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -20,12 +21,19 @@ import java.util.TimerTask;
 
 public class DrawView extends View {
 
-    private Bitmap bitmap;
-    private Canvas canvas;
+    private static int lineSize;
+    private static int lineDIP;
+    private static int androidDIP;
+
     private Paint linePaint;
+
     private int currentWidth;
     private int currentHeight;
-    private Timer timer;
+
+    private ArrayList<Line> lines;
+
+    private Bitmap bitmap;
+    private Canvas canvas;
 
     public DrawView(Context context) {
         super(context);
@@ -43,7 +51,16 @@ public class DrawView extends View {
     }
 
     private void setup(AttributeSet attrs){
+
+       // setBackground(getBackground(R.id.picture_imageView));
+
         linePaint = new Paint();
+        linePaint.setStyle(Paint.Style.FILL);
+
+        lines = new ArrayList<>();
+
+        setUpBitmap();
+      /*  linePaint = new Paint();
         linePaint.setColor(Color.CYAN);
         linePaint.setStyle(Paint.Style.STROKE);
 
@@ -51,8 +68,12 @@ public class DrawView extends View {
         DisplayMetrics dm = getResources().getDisplayMetrics();
         float strokeWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpSize, dm);
         linePaint.setStrokeWidth(strokeWidth);
-        linePaint.setAntiAlias(true);
+        linePaint.setAntiAlias(true);*/
     }
+    private void setUpBitmap(){
+
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -135,4 +156,7 @@ public class DrawView extends View {
         }
     }*/
 
+  class Line{
+      
+  }
 }
