@@ -1,5 +1,5 @@
 package com.kierradangerfield.pictureeditor;
-
+/*SOURCES: https://stackoverflow.com/questions/15704205/how-to-draw-line-on-imageview-along-with-finger-in-android*/
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,9 +24,9 @@ import java.io.File;
 import java.net.URI;
 
 public class MainActivity extends Activity {
-private int reqCode = 1;
-static final int TAKE_PICTURE = 2;
-ImageView imageView;
+    private int reqCode = 1;
+    static final int TAKE_PICTURE = 2;
+    ImageView imageView;
 
     private static int IMAGE = 1;
     private Bitmap bitmap;
@@ -43,58 +44,62 @@ ImageView imageView;
 
         //DrawView drawView = new DrawView(this);
 
+        final DrawView dv = findViewById(R.id.drawView);
+        dv.setup();
 
-      /*findViewById(R.id.rectangle_button).setOnClickListener(new View.OnClickListener() {
+ /*findViewById(R.id.rectangle_button).setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View view) {
-              DrawView dv = findViewById(R.id.drawView);
-              dv.addRectangle();
+              RectangleView rv = findViewById(R.id.drawView);
+              rv.addRectangle();
           }
       });*/
 
         //open gallery
-        findViewById(R.id.openGallery_button).setOnClickListener(new View.OnClickListener() {
+        /*findViewById(R.id.openGallery_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getImage();
             }
-        });
+        });*/
 
-                //image
-        this.findViewById(R.id.picture_imageView).setOnTouchListener(new View.OnTouchListener() {
+        //image
+       /* this.findViewById(R.id.picture_imageView).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+
+             / ImageView iv = findViewById(R.id.picture_imageView);
+                Drawable drawable = iv.getDrawable();
+                drawable.setBounds(20,30, drawable.getIntrinsicWidth() + 20, drawable.getIntrinsicHeight() +30);
+                drawable.draw(canvas);*
+
                 DrawView dv = findViewById(R.id.drawView);
                 dv.setup();
 
                 return false;
             }
-        });
+        });*/
 
 
        /* findViewById(R.id.picture_imageView).setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View view, MotionEvent motionEvent) {
-
                         //DrawView drawView = findViewById(R.id.picture_imageView);
                         //Canvas canvas = new Canvas();
                         // DrawView drawView = DrawView;
                         float actionDown_x, actionDown_y;
                         float actionUp_x, actionUp_y;
-
                         int action = motionEvent.getAction();
                         switch (action) {
                             case MotionEvent.ACTION_DOWN:
                                 actionDown_x = motionEvent.getX();
                                 actionDown_y = motionEvent.getY();
                                 break;
-
                             case MotionEvent.ACTION_UP:
                                 actionUp_x = motionEvent.getX();
                                 actionUp_y = motionEvent.getY();
                                //canvas.drawLine(actionDown_x, actionDown_y, actionUp_x, actionUp_y);
                                 break;
-
                             default:
                                  break;
                         }
@@ -116,7 +121,7 @@ ImageView imageView;
 
 
         /****************** SAVE BUTTON***************************************************************/
-        findViewById(R.id.save_button).setOnClickListener(new View.OnClickListener() {
+      /*  findViewById(R.id.save_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -124,9 +129,9 @@ ImageView imageView;
                 File file = new File(path);
                 Uri uri = Uri.fromFile(file);
                 intent.setData(uri);
-                startActivity(intent);*/
+                startActivity(intent);/
             }
-        });
+        });*/
 
         /******TAKE PICTURE BUTTON*******************************************************************************************/
         findViewById(R.id.takePicture_button).setOnClickListener(new View.OnClickListener() {
@@ -135,7 +140,7 @@ ImageView imageView;
 
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-                if (intent.resolveActivity(getPackageManager()) != null){
+                if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivityForResult(intent, TAKE_PICTURE);
                 }
             }
@@ -143,11 +148,11 @@ ImageView imageView;
 
     }
 
-    public void editButtonClicked(){
+    public void editButtonClicked() {
         //displays width and height
         Display display = getWindowManager().getDefaultDisplay();
 
-       float displayWidth = display.getWidth();
+        float displayWidth = display.getWidth();
         float displayHeight = display.getHeight();
 
         //ImageView imageView = findViewById(R.id.picture_imageView);
@@ -162,17 +167,16 @@ ImageView imageView;
 
 
 
-
     /*SOURCE TO GET IMAGE FROM GALLERY
     http://programmerguru.com/android-tutorial/how-to-pick-image-from-gallery/8
     * */
 
     //get picture from gallery
-    private void getImage(){
+   /* private void getImage(){
 
         Intent getPicIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(getPicIntent, reqCode );
-    }
+    }*/
 /*SELECT IMAGE*/
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -194,11 +198,13 @@ ImageView imageView;
                 String path = cursor.getString(columnIndex);
                 cursor.close();
 
-                ImageView imageView = findViewById(R.id.picture_imageView);
+               // ImageView imageView = findViewById(R.id.picture_imageView);
                 //set image
-                imageView.setImageBitmap(BitmapFactory.decodeFile(path));
+                //imageView.setImageBitmap(BitmapFactory.decodeFile(path));
+                Bitmap bitmap2 = BitmapFactory.decodeFile(path);
 
-                DrawView drawView =findViewById(R.id.drawView);
+               // DrawView drawView =findViewById(R.id.drawView);
+               // canvas.drawBitmap(imageView.getWidth(), imageView.getHeight());
 
                 //DrawView dv = findViewById(R.id.drawView);
                // drawView.start();
@@ -228,6 +234,7 @@ ImageView imageView;
 
         }
     }
+
 
     /*@Override
     public boolean onTouchEvent(MotionEvent event) {
