@@ -1,4 +1,6 @@
 package com.kierradangerfield.pictureeditor;
+/*sources:
+* https://stackoverflow.com/questions/15704205/how-to-draw-line-on-imageview-along-with-finger-in-android*/
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -6,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.drawable.Drawable;
 import android.support.constraint.solver.widgets.Rectangle;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -22,52 +25,71 @@ import java.util.Random;
  */
 
 public class DrawView extends View {
+    int tool = MainActivity.tools;
 
-    private static int lineSize = 100;
-    private static int lineDIP = 5;
+    /*private static int lineSize = 100;
+    private static int lineDIP = 5;*/
+    int drawingSize = MainActivity.size;
     private static int androidDIP = 50;
 
     private static int rectangleSizeDip = 50;
     private static int rectangleStepDip = 5;
 
     private Paint linePaint;
-    private Paint recPaint;
     private Paint bitmapPaint;
     private Random random;
 
     private int currentWidth;
     private int currentHeight;
 
+    private Paint recPaint;
     private ArrayList<Rectangle> rectangles;
+    private ArrayList<Path> paths = new ArrayList<Path>();
 
     private Bitmap bitmap;
     private Canvas canvas;
     Path path;
 
+    float x, y;
+    float width = 100.0f;
+    float height = 50.0f;
+
+    int color = MainActivity.color;
+
+  //  private ImageView imageView;
+
     public DrawView(Context context) {
         super(context);
          setup();
+        rectangleSetUp();
+
     }
 
     public DrawView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setup();
+        rectangleSetUp();
     }
 
     public DrawView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setup();
+        rectangleSetUp();
     }
 
     public void setup(){
-      linePaint = new Paint();
-      linePaint.setAntiAlias(true);
-      linePaint.setColor(Color.BLACK);
-      linePaint.setStyle(Paint.Style.STROKE);
+      //  ImageView iv = findViewById(R.id.picture_imageView);
 
-      path = new Path();
-      bitmapPaint = new Paint();
-      bitmapPaint.setColor(Color.GREEN);
+            linePaint = new Paint();
+            linePaint.setAntiAlias(true);
+            linePaint.setColor(Color.RED);
+            linePaint.setStyle(Paint.Style.STROKE);
+
+            path = new Path();
+            bitmapPaint = new Paint();
+            bitmapPaint.setColor(Color.GREEN);
+
+            loadBitmap();
 
      /* /*RECTANGLE *
         random = new Random();
@@ -96,13 +118,37 @@ public class DrawView extends View {
         linePaint.setAntiAlias(true);*/
     }
 
+    public void rectangleSetUp(){
+        /*recPaint = new Paint();
+        recPaint.setStyle(Paint.Style.FILL);
+
+        random = new Random();
+        rectangles = new ArrayList<>();
+
+        loadBitmap();*/
+        x = y = 0;
+
+        recPaint = new Paint();
+        recPaint.setColor(Color.CYAN);
+        recPaint.setStyle(Paint.Style.STROKE);
+
+    }
+
+    private void loadBitmap(){
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+        int pixelSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, drawingSize, dm);
+        bitmap = Bitmap.createBitmap(pixelSize, pixelSize, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+
+    }
+
     private void setUpBitmap(){
 
-        ImageView imageView = findViewById(R.id.picture_imageView);
+       // imageView = findViewById(R.id.picture_imageView);
         DisplayMetrics dm = getResources().getDisplayMetrics();
         int pixelSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, androidDIP, dm);
 
-        bitmap = Bitmap.createBitmap(pixelSize, pixelSize, Bitmap.Config.ARGB_8888);
+
 
         //make the drawable
        /*Canvas canvas = new Canvas(bitmap);
@@ -121,7 +167,8 @@ public class DrawView extends View {
 
         /****FOR LINES*****************************************************************/
         bitmap = Bitmap.createBitmap(currentWidth, currentHeight, Bitmap.Config.ARGB_8888);
-        canvas = new Canvas(bitmap);
+      canvas = new Canvas(bitmap);
+
     }
 
     public void addRectangle(){
@@ -133,18 +180,31 @@ public class DrawView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        canvas.drawBitmap(bitmap, 0, 0, bitmapPaint);
-        canvas.drawPath(path, linePaint);
 
+        //while (tool == 1) {
+        //Path[] paths;
+        //linePaint.setColor(color);
+            canvas.drawBitmap(bitmap, 0, 0, bitmapPaint);
+            canvas.drawPath(path, linePaint);
+
+        //}
+
+       /* while (tool == 0){
+            canvas.drawRect(x,y,x + width, y + height, recPaint);
+        }*/
         /*FOR RECTANGLE*/
 
-/*        int size = rectangles.size();
+   /*  int size = rectangles.size();
 
         for (int i = 0; i < size; i++){
            Rectangle r = rectangles.get(i);
 
 
-            canvas.drawBitmap(bitmap, r.x, r.y, linePaint);
+            canvas.drawBitmap(bitmap, r.x, r.y, recPaint);
+        }*/
+
+       /* if (touch){
+            canvas.drawRect(x,y,x + width, y + height, recPaint);
         }*/
 
 
@@ -157,6 +217,7 @@ public class DrawView extends View {
     private float downX, downY;
     private static final float TOUCH_TOL = 4;
     private void touchDown(float x, float y){
+
         path.moveTo(x,y);
 
         downX = x;
@@ -205,9 +266,10 @@ public class DrawView extends View {
             default:
                 break;
         }
-
         return true;
     }
+
+
 
     /**
      * Source and explanation
@@ -278,10 +340,16 @@ public class DrawView extends View {
   class Rectangle{
 
       int x, y;
+      float pixelSize;
       //float pixelSize, xStep
 
-      Rectangle(int lineSizeDP, int stepSizeDP){
+      Rectangle(int rectangleSizeDip, int rectangleStepDip){
 
+          DisplayMetrics dm = getResources().getDisplayMetrics();
+          pixelSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, rectangleSizeDip, dm);
+
+          x = random.nextInt((int) (currentWidth - pixelSize));
+          y = random.nextInt((int) (currentHeight - pixelSize));
       }
   }
 }
