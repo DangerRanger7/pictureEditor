@@ -29,7 +29,7 @@ public class DrawView extends View {
 
     /*private static int lineSize = 100;
     private static int lineDIP = 5;*/
-    int drawingSize = MainActivity.size;
+   int drawingSize; // = MainActivity.size;
     private static int androidDIP = 50;
 
     private static int rectangleSizeDip = 50;
@@ -86,6 +86,7 @@ public class DrawView extends View {
             linePaint.setAntiAlias(true);
             linePaint.setColor(color2);
             linePaint.setStyle(Paint.Style.STROKE);
+            drawingSize = 50;
 
             path = new Path();
            /* bitmapPaint = new Paint();
@@ -219,6 +220,12 @@ public class DrawView extends View {
     public void changeColor(int color){
 
         linePaint.setColor(color);
+    }
+
+    public void changeSize(int size){
+        //drawingSize = size;
+
+        linePaint.setStrokeWidth((float) size);
     }
 
     private float downX, downY;
