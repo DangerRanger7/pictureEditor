@@ -56,6 +56,8 @@ public class DrawView extends View {
 
     int color = MainActivity.color;
 
+    int color2 = MainActivity.color;
+
   //  private ImageView imageView;
 
     public DrawView(Context context) {
@@ -82,12 +84,12 @@ public class DrawView extends View {
 
             linePaint = new Paint();
             linePaint.setAntiAlias(true);
-            linePaint.setColor(Color.RED);
+            linePaint.setColor(color2);
             linePaint.setStyle(Paint.Style.STROKE);
 
             path = new Path();
-            bitmapPaint = new Paint();
-            bitmapPaint.setColor(Color.GREEN);
+           /* bitmapPaint = new Paint();
+            bitmapPaint.setColor(Color.GREEN);*/
 
             loadBitmap();
 
@@ -212,6 +214,11 @@ public class DrawView extends View {
       //  canvas.drawPaint(backgroundPaint);
       /*  canvas.drawLine(0, 0, currentWidth - 1, currentHeight - 1, linePaint);
         canvas.drawLine(currentWidth - 1, 0, 0, currentHeight - 1, linePaint);*/
+    }
+
+    public void changeColor(int color){
+
+        linePaint.setColor(color);
     }
 
     private float downX, downY;
