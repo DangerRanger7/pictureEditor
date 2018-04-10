@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.constraint.solver.widgets.Rectangle;
 import android.util.AttributeSet;
@@ -187,8 +188,19 @@ public class DrawView extends View {
         //while (tool == 1) {
         //Path[] paths;
         //linePaint.setColor(color);
-            canvas.drawBitmap(bitmap, 0, 0, bitmapPaint);
-            canvas.drawPath(path, linePaint);
+        //bitmapPaint.setColor(Color.WHITE);
+
+        canvas.drawBitmap(bitmap, 0, 0, bitmapPaint);
+
+            //if (MainActivity.recButton.isChecked()){
+
+              //  canvas.drawRect(downX, downY, x, y, recPaint);
+           // }else  {
+                canvas.drawPath(path, linePaint);
+            //}
+
+
+
 
         //}
 
@@ -206,6 +218,7 @@ public class DrawView extends View {
             canvas.drawBitmap(bitmap, r.x, r.y, recPaint);
         }*/
 
+
        /* if (touch){
             canvas.drawRect(x,y,x + width, y + height, recPaint);
         }*/
@@ -220,12 +233,42 @@ public class DrawView extends View {
     public void changeColor(int color){
 
         linePaint.setColor(color);
+        recPaint.setColor(color);
     }
 
     public void changeSize(int size){
         //drawingSize = size;
 
         linePaint.setStrokeWidth((float) size);
+        recPaint.setStrokeWidth((float) size);
+    }
+
+    public void changeBitmapColor(int color){
+       if (color == Color.BLACK){
+          /* bitmapPaint.setColor(color);
+           canvas.drawBitmap(bitmap, 0, 0, bitmapPaint);*/
+
+       }else if (color == Color.WHITE){
+           /*bitmapPaint.setColor(color);
+           canvas.drawBitmap(bitmap, 0, 0, bitmapPaint);*/
+       }
+       // canvas.drawBitmap(bitmap, 0, 0, bitmapPaint);
+    }
+
+    public void clearCanvas(){
+
+        canvas.drawColor(Color.WHITE);
+
+    }
+
+
+    public void drawRectangle(){
+
+
+        /*while(tool == 0){
+            canvas.drawRect(x, y, x2, y2.getY(), drawPaint);
+        }*/
+        canvas.drawRect(downX, downY, x, y, recPaint);
     }
 
     private float downX, downY;
@@ -261,25 +304,55 @@ public class DrawView extends View {
         float x = event.getX();
         float y = event.getY();
 
-        switch(event.getAction()){
-            case MotionEvent.ACTION_DOWN:
-                touchDown(x,y);
-                invalidate();
-                break;
 
-            case  MotionEvent.ACTION_MOVE:
-                touchMove(x,y);
-                invalidate();
-                break;
+        if (MainActivity.recButton.isChecked()){
+            switch(event.getAction()){
+                case MotionEvent.ACTION_DOWN:
+                   /* downX = x;
+                    downY = y;*/
+                   touchDown(x, y);
+                   invalidate();
+                    return true;
 
-            case MotionEvent.ACTION_UP:
-                touchUp();
-                invalidate();
-                break;
+                case MotionEvent.ACTION_MOVE:
+                    touchMove(x, y);
+                    invalidate();
+                    break;
 
-            default:
-                break;
+                case MotionEvent.ACTION_UP:
+                    touchUp();
+                    invalidate();
+                    break;
+
+                default:
+                    return false;
+
+            }
+            postInvalidate();
+            return true;
+
+        }else  {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    touchDown(x, y);
+                    invalidate();
+                    break;
+
+                case MotionEvent.ACTION_MOVE:
+                    touchMove(x, y);
+                    invalidate();
+                    break;
+
+                case MotionEvent.ACTION_UP:
+                    touchUp();
+                    invalidate();
+                    break;
+
+                default:
+                    break;
+            }
         }
+
         return true;
     }
 
