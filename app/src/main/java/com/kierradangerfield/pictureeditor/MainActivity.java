@@ -16,11 +16,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.constraint.ConstraintLayout;
 import android.support.constraint.solver.widgets.Rectangle;
 import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -34,6 +36,13 @@ import java.net.URI;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Random;
+
+/*FEATURES
+1. CHANGE CANVAS BACKGROUND
+2. CHANGE BACKGROUND LAYOUT-> DAY/LIGHT MODE
+3.
+*
+* */
 
 public class MainActivity extends Activity {
     private int reqCode = 1;
@@ -52,11 +61,16 @@ public class MainActivity extends Activity {
    public static int size = 50;
    public static int color = Color.BLACK;
 
+   public static RadioButton recButton;
+    boolean isDayLight = true;
+
     String path;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         //DrawView drawView = new DrawView(this);
 
@@ -71,10 +85,12 @@ public class MainActivity extends Activity {
           }
       });
 
-        RadioButton rb = findViewById(R.id.rec_radioButton);
+        RadioButton rb;
+        recButton = findViewById(R.id.rec_radioButton);
 
         rb = findViewById(R.id.line_radioButton);
         rb.setChecked(true);
+
 
         //tools radio group
         //RadioGroup radioGroup = findViewById(R.id.tools
@@ -85,7 +101,8 @@ public class MainActivity extends Activity {
                DrawView dv = findViewById(R.id.drawView);
                if (id == R.id.rec_radioButton){
                    tools = 0;
-                  // dv.drawRectangle();
+
+                  dv.drawRectangle();
                }else if (id == R.id.line_radioButton){
                    tools = 1;
                }
@@ -142,7 +159,36 @@ public class MainActivity extends Activity {
         }
     });
 
+        //change canvas color
+        findViewById(R.id.canvasBackgroundColor_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+            }
+        });
+
+        //day or night mode--->>>>>FEATURE
+      final Button b = findViewById(R.id.layoutMode_button);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                final ConstraintLayout layout = findViewById(R.id.layout);
+
+                //change text color if have time!
+                if (isDayLight){
+                    layout.setBackgroundColor(Color.rgb(105,105,105));
+                    b.setText("Day Mode");
+                    isDayLight = false;
+                }else if(isDayLight == false){
+
+                    layout.setBackgroundColor(Color.rgb(255,255,240));
+                    b.setText("Night Mode");
+                    isDayLight = true;
+                }
+
+            }
+        });
 
 
         //open gallery
@@ -201,13 +247,7 @@ public class MainActivity extends Activity {
         * source
         * https://stackoverflow.com/questions/15704205/how-to-draw-line-on-imageview-along-with-finger-in-android*/
 
-        //edit***************************************************************
-        findViewById(R.id.edit_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //editButtonClicked();
-            }
-        });
+
 
 
         /****************** SAVE BUTTON***************************************************************/
