@@ -65,6 +65,8 @@ public class MainActivity extends Activity {
     boolean isDayLight = true;
     boolean canvasLight = true;
 
+    public static Paint.Style style = Paint.Style.STROKE;
+
     String path;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +104,18 @@ public class MainActivity extends Activity {
                DrawView dv = findViewById(R.id.drawView);
                if (id == R.id.rec_radioButton){
                    tools = 0;
+                   /*dv.setOnTouchListener(new View.OnTouchListener() {
+                      /* @Override
+                       public boolean onTouch(View view, MotionEvent motionEvent) {
+                           if (motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                               float x = motionEvent.getX();
+                               float y = motionEvent.getY();
+
+
+                           }
+                           return false;
+                       }*
+                   });*/
 
                   dv.drawRectangle();
                }else if (id == R.id.line_radioButton){
@@ -160,7 +174,7 @@ public class MainActivity extends Activity {
         }
     });
 
-        //change canvas color----------->>>>FEATURE
+        //change canvas color----------->>>>FEATURE**********************************************************************
   final Button cb = findViewById(R.id.canvasBackgroundColor_button);
 
   cb.setOnClickListener(new View.OnClickListener() {
@@ -186,7 +200,7 @@ public class MainActivity extends Activity {
             }
         });
 
-        //day or night mode--->>>>>NOT A FEATURE
+        //day or night mode--->>>>>FEATURE**********************************************************************
       final Button b = findViewById(R.id.layoutMode_button);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -209,13 +223,35 @@ public class MainActivity extends Activity {
             }
         });
 
-        //Clear Canvas---------->FEATURE
+        //Clear Canvas---------->FEATURE**********************************************************************
         findViewById(R.id.reset_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                // Bitmap imBitmap;
 
                 dv.clearCanvas();
+            }
+        });
+
+        rb =  findViewById(R.id.stroke_radioButton);
+        rb.setChecked(true);
+        findViewById(R.id.fill_radioButton);
+        findViewById(R.id.strokeFill_radioButton);
+        rg = findViewById(R.id.style_radioGroup);
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+
+                if (i == R.id.stroke_radioButton){
+                    style = Paint.Style.STROKE;
+                }else if (i == R.id.fill_radioButton){
+                    style = Paint.Style.FILL;
+                }else if (i == R.id.strokeFill_radioButton){
+                    style = Paint.Style.FILL_AND_STROKE;
+                }
+
+                DrawView dv = findViewById(R.id.drawView);
+                dv.changeStyle(style);
             }
         });
 
@@ -290,6 +326,7 @@ public class MainActivity extends Activity {
             }
         });
 
+
         /******TAKE PICTURE BUTTON*******************************************************************************************/
         findViewById(R.id.takePicture_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -308,7 +345,32 @@ public class MainActivity extends Activity {
 
 
 public  void save() {
-    DrawView dv = new DrawView(this);
+Bitmap bm;
+//DrawView view = findViewById(R.id.drawView);
+bm = DrawView.bitmap;
+        String root = Environment.getExternalStorageDirectory().toString();
+        File dir = new File(root + "/sdcard/saved_images");
+        dir.mkdirs();
+        Random random = new Random();
+        int n = 1000;
+        n = random.nextInt(n);
+        String name = "Image-" + n +".jpg";
+        File file = new File(dir, name);
+        if (file.exists()){
+            file.delete();
+        }
+
+        try{
+            FileOutputStream fos = new FileOutputStream(file);
+            bm.compress(Bitmap.CompressFormat.JPEG, 90, fos);
+            fos.flush();
+            fos.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+   /* DrawView dv = new DrawView(this);
     bitmap = dv.getDrawingCache();
     try {
         FileOutputStream fos = openFileOutput("name.png", Context.MODE_PRIVATE);
@@ -317,7 +379,7 @@ public  void save() {
         fos.close();
     } catch (IOException e) {
         e.printStackTrace();
-    }
+    }*/
 }
 
 
