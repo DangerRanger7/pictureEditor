@@ -63,6 +63,7 @@ public class MainActivity extends Activity {
 
    public static RadioButton recButton;
     boolean isDayLight = true;
+    boolean canvasLight = true;
 
     String path;
     @Override
@@ -159,15 +160,33 @@ public class MainActivity extends Activity {
         }
     });
 
-        //change canvas color
-        findViewById(R.id.canvasBackgroundColor_button).setOnClickListener(new View.OnClickListener() {
+        //change canvas color----------->>>>FEATURE
+  final Button cb = findViewById(R.id.canvasBackgroundColor_button);
+
+  cb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                DrawView dv = findViewById(R.id.drawView);
+                int canvasColor;
+
+                if (canvasLight){
+                    canvasColor = Color.BLACK;
+                    dv.setBackgroundColor(canvasColor);
+                    dv.invalidate();
+                    cb.setText("White Background");
+                    canvasLight = false;
+                }else if (canvasLight == false){
+                    canvasColor = Color.WHITE;
+                    dv.setBackgroundColor(canvasColor);
+                    dv.invalidate();
+                    cb.setText("Black Background");
+                    canvasLight = true;
+                }
 
             }
         });
 
-        //day or night mode--->>>>>FEATURE
+        //day or night mode--->>>>>NOT A FEATURE
       final Button b = findViewById(R.id.layoutMode_button);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,6 +206,16 @@ public class MainActivity extends Activity {
                     isDayLight = true;
                 }
 
+            }
+        });
+
+        //Clear Canvas---------->FEATURE
+        findViewById(R.id.reset_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               // Bitmap imBitmap;
+
+                dv.clearCanvas();
             }
         });
 
@@ -349,13 +378,13 @@ public  void save() {
         startActivityForResult(getPicIntent, reqCode );
     }*/
 /*SELECT IMAGE*/
-  /*  @Override
+   /* @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        switch (requestCode) {
+
             //try {
-            case 1:
+
             if (requestCode == reqCode && resultCode == RESULT_OK && null != data) {
                 Uri selectPic = data.getData();
                 String[] image = {MediaStore.Images.Media.DATA};
@@ -369,22 +398,20 @@ public  void save() {
                 String path = cursor.getString(columnIndex);
                 cursor.close();
 
-               // ImageView imageView = findViewById(R.id.picture_imageView);
+                // ImageView imageView = findViewById(R.id.picture_imageView);
                 //set image
                 //imageView.setImageBitmap(BitmapFactory.decodeFile(path));
                 Bitmap bitmap2 = BitmapFactory.decodeFile(path);
 
-               // DrawView drawView =findViewById(R.id.drawView);
-               // canvas.drawBitmap(imageView.getWidth(), imageView.getHeight());
+                // DrawView drawView =findViewById(R.id.drawView);
+                // canvas.drawBitmap(imageView.getWidth(), imageView.getHeight());
 
                 //DrawView dv = findViewById(R.id.drawView);
-               // drawView.start();
-              //  imageView.setOnTouchListener((View.OnTouchListener) this);
+                // drawView.start();
+                //  imageView.setOnTouchListener((View.OnTouchListener) this);
 
-            }
-            break;
 
-            //save image
+                //save image
             /*case 2:
                 // if (requestCode == reqCode && resultCode == RESULT_OK) {
                 Bundle extras = data.getExtras();
@@ -404,8 +431,8 @@ public  void save() {
         }*
 
         }
-    }*/
-
+    }*
+            }*/
 
     /*@Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -491,3 +518,4 @@ public  void save() {
 
     }*/
 }
+
