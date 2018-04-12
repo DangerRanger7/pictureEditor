@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -80,13 +81,7 @@ public class MainActivity extends Activity {
         final DrawView dv = findViewById(R.id.drawView);
         dv.setup();
 
- findViewById(R.id.rectangle_button).setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View view) {
-              DrawView dv = findViewById(R.id.drawView);
-              dv.rectangleSetUp();
-          }
-      });
+
 
         RadioButton rb;
         recButton = findViewById(R.id.rec_radioButton);
@@ -205,21 +200,22 @@ public class MainActivity extends Activity {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 final ConstraintLayout layout = findViewById(R.id.layout);
 
-                //change text color if have time!
                 if (isDayLight){
+
                     layout.setBackgroundColor(Color.rgb(105,105,105));
+                    changeTextColorDay();
                     b.setText("Day Mode");
                     isDayLight = false;
+
                 }else if(isDayLight == false){
 
                     layout.setBackgroundColor(Color.rgb(255,255,240));
+                    changeTextColorNight();
                     b.setText("Night Mode");
                     isDayLight = true;
                 }
-
             }
         });
 
@@ -238,6 +234,7 @@ public class MainActivity extends Activity {
         findViewById(R.id.fill_radioButton);
         findViewById(R.id.strokeFill_radioButton);
         rg = findViewById(R.id.style_radioGroup);
+        //change style---------->FEATURE**********************************************************************
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -327,19 +324,48 @@ public class MainActivity extends Activity {
         });
 
 
-        /******TAKE PICTURE BUTTON*******************************************************************************************/
-        findViewById(R.id.takePicture_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+    }
+    int[] ids = {R.id.rec_radioButton, R.id.line_radioButton, R.id.small_radioButton,
+    R.id.Medium_radioButton, R.id.large_radioButton, R.id.black_radioButton, R.id.cyan_radioButton,
+    R.id.red_radioButton, R.id.stroke_radioButton, R.id.fill_radioButton, R.id.strokeFill_radioButton};
 
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+    public void changeTextColorDay(){
+        TextView tv;
+        RadioGroup rg;
+        tv = findViewById(R.id.tools_textview);
+        tv.setTextColor(Color.WHITE);
+        tv = findViewById(R.id.size_textView);
+        tv.setTextColor(Color.WHITE);
+        tv = findViewById(R.id.color_textview);
+        tv.setTextColor(Color.WHITE);
+        tv = findViewById(R.id.style_textView);
+        tv.setTextColor(Color.WHITE);
 
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(intent, TAKE_PICTURE);
-                }
-            }
-        });
 
+        for (int i = 0; i < ids.length; i++){
+         //   int b = i;
+            RadioButton rb = findViewById(ids[i]);
+            rb.setTextColor(Color.WHITE);
+        }
+    }
+
+    public void changeTextColorNight(){
+        TextView tv;
+
+        tv = findViewById(R.id.tools_textview);
+        tv.setTextColor(Color.BLACK);
+        tv = findViewById(R.id.size_textView);
+        tv.setTextColor(Color.BLACK);
+        tv = findViewById(R.id.color_textview);
+        tv.setTextColor(Color.BLACK);
+        tv = findViewById(R.id.style_textView);
+        tv.setTextColor(Color.BLACK);
+
+        for (int i = 0; i < ids.length; i++){
+            //   int b = i;
+            RadioButton rb = findViewById(ids[i]);
+            rb.setTextColor(Color.BLACK);
+        }
     }
 
 
