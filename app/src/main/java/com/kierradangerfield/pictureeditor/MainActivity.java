@@ -304,7 +304,7 @@ public class MainActivity extends Activity {
                         return false;
                     }
                 });*/
-
+ 
         /*
         * source
         * https://stackoverflow.com/questions/15704205/how-to-draw-line-on-imageview-along-with-finger-in-android*/
@@ -318,7 +318,7 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
 
                 DrawView dv = new DrawView(MainActivity.this);
-                dv.setDrawingCacheEnabled(true);
+                //dv.setDrawingCacheEnabled(true);
                 save();
             }
         });
@@ -331,7 +331,7 @@ public class MainActivity extends Activity {
 
     public void changeTextColorDay(){
         TextView tv;
-        RadioGroup rg;
+
         tv = findViewById(R.id.tools_textview);
         tv.setTextColor(Color.WHITE);
         tv = findViewById(R.id.size_textView);
@@ -374,7 +374,35 @@ public  void save() {
 Bitmap bm;
 //DrawView view = findViewById(R.id.drawView);
 bm = DrawView.bitmap;
-        String root = Environment.getExternalStorageDirectory().toString();
+
+File dir = new File(Environment.getExternalStorageDirectory().toString());
+boolean success = false;
+if (!dir.exists()){
+    success = dir.mkdirs();
+}
+
+File file = new File(Environment.getExternalStorageDirectory().toString() + "/sample.png");
+
+if (!file.exists()){
+    try {
+     success = file.createNewFile();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+
+FileOutputStream fos = null;
+try{
+    fos = new FileOutputStream(file);
+
+    DrawView view = findViewById(R.id.drawView);
+
+    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+} catch (FileNotFoundException e) {
+    e.printStackTrace();
+}
+
+    /*String root = Environment.getExternalStorageDirectory().toString();
         File dir = new File(root + "/sdcard/saved_images");
         dir.mkdirs();
         Random random = new Random();
@@ -394,7 +422,7 @@ bm = DrawView.bitmap;
 
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
 
    /* DrawView dv = new DrawView(this);
     bitmap = dv.getDrawingCache();

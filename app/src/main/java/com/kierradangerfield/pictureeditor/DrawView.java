@@ -1,6 +1,7 @@
 package com.kierradangerfield.pictureeditor;
 /*sources:
-* https://stackoverflow.com/questions/15704205/how-to-draw-line-on-imageview-along-with-finger-in-android*/
+* https://stackoverflow.com/questions/15704205/how-to-draw-line-on-imageview-along-with-finger-in-android
+* https://stackoverflow.com/questions/21864863/android-canvas-clear-with-transparency*/
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -47,7 +48,7 @@ public class DrawView extends View {
     private ArrayList<Rectangle> rectangles;
     private ArrayList<Path> paths = new ArrayList<Path>();
 
-    private Bitmap bitmap;
+   public static Bitmap bitmap;
     private Canvas canvas;
     Path path;
 
@@ -234,41 +235,30 @@ public class DrawView extends View {
 
         linePaint.setColor(color);
         recPaint.setColor(color);
+
     }
 
     public void changeSize(int size){
-        //drawingSize = size;
-
         linePaint.setStrokeWidth((float) size);
         recPaint.setStrokeWidth((float) size);
     }
 
-    public void changeBitmapColor(int color){
-       if (color == Color.BLACK){
-          /* bitmapPaint.setColor(color);
-           canvas.drawBitmap(bitmap, 0, 0, bitmapPaint);*/
-
-       }else if (color == Color.WHITE){
-           /*bitmapPaint.setColor(color);
-           canvas.drawBitmap(bitmap, 0, 0, bitmapPaint);*/
-       }
-       // canvas.drawBitmap(bitmap, 0, 0, bitmapPaint);
-    }
-
     public void clearCanvas(){
-
         canvas.drawColor(Color.WHITE);
-
+        invalidate();
     }
-
 
     public void drawRectangle(){
-
 
         /*while(tool == 0){
             canvas.drawRect(x, y, x2, y2.getY(), drawPaint);
         }*/
         canvas.drawRect(downX, downY, x, y, recPaint);
+    }
+
+    public void changeStyle(Paint.Style style){
+        linePaint.setStyle(style);
+        recPaint.setStyle(style);
     }
 
     private float downX, downY;
