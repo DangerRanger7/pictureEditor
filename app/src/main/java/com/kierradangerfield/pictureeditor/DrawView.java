@@ -1,7 +1,8 @@
 package com.kierradangerfield.pictureeditor;
 /*sources:
 * https://stackoverflow.com/questions/15704205/how-to-draw-line-on-imageview-along-with-finger-in-android
-* https://stackoverflow.com/questions/21864863/android-canvas-clear-with-transparency*/
+* https://stackoverflow.com/questions/21864863/android-canvas-clear-with-transparency
+* https://stackoverflow.com/questions/6956838/how-to-erase-previous-drawing-on-canvas*/
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -11,6 +12,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Environment;
 import android.support.constraint.solver.widgets.Rectangle;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -19,6 +21,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -244,7 +250,7 @@ public class DrawView extends View {
     }
 
     public void clearCanvas(){
-        canvas.drawColor(Color.WHITE);
+        canvas.drawColor(0, PorterDuff.Mode.CLEAR);
         invalidate();
     }
 
@@ -259,6 +265,10 @@ public class DrawView extends View {
     public void changeStyle(Paint.Style style){
         linePaint.setStyle(style);
         recPaint.setStyle(style);
+    }
+
+    public void save(){
+
     }
 
     private float downX, downY;
