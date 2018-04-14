@@ -28,22 +28,24 @@
 
     <Button
         android:id="@+id/canvasBackgroundColor_button"
-        android:layout_width="130dp"
+        android:layout_width="120dp"
         android:layout_height="55dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="BLack Background"
+        android:fontFamily="serif"
+        android:text="Black Background"
+        android:textAllCaps="false"
         android:textColor="@android:color/black"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.924"
+        app:layout_constraintHorizontal_bias="0.03"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.843" />
+        app:layout_constraintVertical_bias="0.984" />
 
     <Button
         android:id="@+id/save_button"
@@ -54,9 +56,11 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Save"
+        android:textAllCaps="false"
         android:textColor="@android:color/black"
         android:textSize="14sp"
         android:textStyle="bold"
+        android:typeface="serif"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.026"
@@ -83,7 +87,8 @@
             android:layout_weight="1"
             android:text="Rectangle"
             android:textColor="@android:color/black"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:typeface="serif" />
 
         <RadioButton
             android:id="@+id/line_radioButton"
@@ -92,7 +97,8 @@
             android:layout_weight="1"
             android:text="Line"
             android:textColor="@android:color/black"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:typeface="serif" />
     </RadioGroup>
 
     <TextView
@@ -106,6 +112,7 @@
         android:text="Tools"
         android:textColor="@android:color/black"
         android:textSize="18sp"
+        android:typeface="serif"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -124,6 +131,7 @@
         android:text="Size"
         android:textColor="@android:color/black"
         android:textSize="18sp"
+        android:typeface="serif"
         app:layout_constraintBottom_toTopOf="@+id/drawView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.424"
@@ -148,7 +156,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Small" />
+            android:text="Small"
+            android:typeface="serif" />
 
         <RadioButton
             android:id="@+id/Medium_radioButton"
@@ -156,6 +165,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Medium"
+            android:typeface="serif"
             tools:text="Medium" />
 
         <RadioButton
@@ -163,7 +173,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Large" />
+            android:text="Large"
+            android:typeface="serif" />
     </RadioGroup>
 
     <RadioGroup
@@ -186,21 +197,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Black" />
+            android:text="Black"
+            android:typeface="serif" />
 
         <RadioButton
             android:id="@+id/cyan_radioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Cyan" />
+            android:text="Cyan"
+            android:typeface="serif" />
 
         <RadioButton
             android:id="@+id/red_radioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Red" />
+            android:text="Red"
+            android:typeface="serif" />
     </RadioGroup>
 
     <TextView
@@ -214,6 +228,7 @@
         android:text="Color"
         android:textColor="@android:color/black"
         android:textSize="18sp"
+        android:typeface="serif"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.888"
@@ -229,29 +244,38 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:fontFamily="serif"
         android:text="Night Mode"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.898"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.962" />
-
-    <Button
-        android:id="@+id/reset_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="clear"
+        android:textAllCaps="false"
+        android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.973"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.71" />
+        app:layout_constraintVertical_bias="0.985" />
+
+    <Button
+        android:id="@+id/reset_button"
+        android:layout_width="88dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="serif"
+        android:text="Clear"
+        android:textAllCaps="false"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.973"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.756" />
 
     <TextView
         android:id="@+id/style_textView"
@@ -261,6 +285,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Style"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:typeface="serif"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.023"
@@ -288,21 +315,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Stroke" />
+            android:text="Stroke"
+            android:typeface="serif" />
 
         <RadioButton
             android:id="@+id/fill_radioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Fill" />
+            android:text="Fill"
+            android:typeface="serif" />
 
         <RadioButton
             android:id="@+id/strokeFill_radioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Stroke and Fill" />
+            android:text="Stroke and Fill"
+            android:typeface="serif" />
 
     </RadioGroup>
 
