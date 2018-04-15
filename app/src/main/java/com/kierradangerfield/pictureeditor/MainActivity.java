@@ -46,17 +46,6 @@ import java.util.Random;
 * */
 
 public class MainActivity extends Activity {
-    private int reqCode = 1;
-    static final int TAKE_PICTURE = 2;
-    ImageView imageView;
-
-    private static int IMAGE = 1;
-    private Bitmap bitmap;
-    private Canvas canvas;
-    private Paint linePaint;
-
-    float xDown = 0, yDown = 0;
-    float xUp, yUp;
 
     public static int tools = 1;
    public static int size = 50;
@@ -68,20 +57,14 @@ public class MainActivity extends Activity {
 
     public static Paint.Style style = Paint.Style.STROKE;
 
-    String path;
+   // String path;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
-        //DrawView drawView = new DrawView(this);
-
         final DrawView dv = findViewById(R.id.drawView);
         dv.setup();
-
-
 
         RadioButton rb;
         recButton = findViewById(R.id.rec_radioButton);
@@ -99,20 +82,7 @@ public class MainActivity extends Activity {
                DrawView dv = findViewById(R.id.drawView);
                if (id == R.id.rec_radioButton){
                    tools = 0;
-                   /*dv.setOnTouchListener(new View.OnTouchListener() {
-                      /* @Override
-                       public boolean onTouch(View view, MotionEvent motionEvent) {
-                           if (motionEvent.getAction() == MotionEvent.ACTION_DOWN){
-                               float x = motionEvent.getX();
-                               float y = motionEvent.getY();
 
-
-                           }
-                           return false;
-                       }*
-                   });*/
-
-                  dv.drawRectangle();
                }else if (id == R.id.line_radioButton){
                    tools = 1;
                }
@@ -120,7 +90,8 @@ public class MainActivity extends Activity {
            }
        });
 
-       findViewById(R.id.small_radioButton);
+        rb = findViewById(R.id.small_radioButton);
+        rb.setChecked(true);
        findViewById(R.id.Medium_radioButton);
        findViewById(R.id.large_radioButton);
 
@@ -223,9 +194,7 @@ public class MainActivity extends Activity {
         findViewById(R.id.reset_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // Bitmap imBitmap;
-
-                dv.clearCanvas();
+               dv.clearCanvas();
             }
         });
 
@@ -252,65 +221,9 @@ public class MainActivity extends Activity {
             }
         });
 
-
-        //open gallery
-        /*findViewById(R.id.openGallery_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getImage();
-            }
-        });*/
-
-        //image
-       /* this.findViewById(R.id.picture_imageView).setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-
-             / ImageView iv = findViewById(R.id.picture_imageView);
-                Drawable drawable = iv.getDrawable();
-                drawable.setBounds(20,30, drawable.getIntrinsicWidth() + 20, drawable.getIntrinsicHeight() +30);
-                drawable.draw(canvas);*
-
-                DrawView dv = findViewById(R.id.drawView);
-                dv.setup();
-
-                return false;
-            }
-        });*/
-
-
-       /* findViewById(R.id.picture_imageView).setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View view, MotionEvent motionEvent) {
-                        //DrawView drawView = findViewById(R.id.picture_imageView);
-                        //Canvas canvas = new Canvas();
-                        // DrawView drawView = DrawView;
-                        float actionDown_x, actionDown_y;
-                        float actionUp_x, actionUp_y;
-                        int action = motionEvent.getAction();
-                        switch (action) {
-                            case MotionEvent.ACTION_DOWN:
-                                actionDown_x = motionEvent.getX();
-                                actionDown_y = motionEvent.getY();
-                                break;
-                            case MotionEvent.ACTION_UP:
-                                actionUp_x = motionEvent.getX();
-                                actionUp_y = motionEvent.getY();
-                               //canvas.drawLine(actionDown_x, actionDown_y, actionUp_x, actionUp_y);
-                                break;
-                            default:
-                                 break;
-                        }
-                        return false;
-                    }
-                });*/
- 
         /*
         * source
         * https://stackoverflow.com/questions/15704205/how-to-draw-line-on-imageview-along-with-finger-in-android*/
-
-
-
 
         /****************** SAVE BUTTON***************************************************************/
        findViewById(R.id.save_button).setOnClickListener(new View.OnClickListener() {
@@ -368,270 +281,27 @@ public class MainActivity extends Activity {
         }
     }
 
-
-
 public  void save() {
-Bitmap bm;
-//DrawView view = findViewById(R.id.drawView);
-bm = DrawView.bitmap;
-
-File dir = new File(Environment.getExternalStorageDirectory().toString());
-boolean success = false;
-if (!dir.exists()){
-    success = dir.mkdirs();
-}
-
-File file = new File(Environment.getExternalStorageDirectory().toString() + "/sample.png");
-
-if (!file.exists()){
+DrawView dv = findViewById(R.id.drawView);
     try {
-     success = file.createNewFile();
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-}
+        Bitmap bitmap = dv.getDrawingCache();
+        File f = null;
 
-FileOutputStream fos = null;
-try{
-    fos = new FileOutputStream(file);
-
-    DrawView view = findViewById(R.id.drawView);
-
-    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-} catch (FileNotFoundException e) {
-    e.printStackTrace();
-}
-
-    /*String root = Environment.getExternalStorageDirectory().toString();
-        File dir = new File(root + "/sdcard/saved_images");
-        dir.mkdirs();
-        Random random = new Random();
-        int n = 1000;
-        n = random.nextInt(n);
-        String name = "Image-" + n +".jpg";
-        File file = new File(dir, name);
-        if (file.exists()){
-            file.delete();
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            File file = new File(Environment.getExternalStorageDirectory(), "TTImages_cache");
+            if (!file.exists()) {
+                file.mkdirs();
+            }
+            f = new File(file.getAbsolutePath() + file.separator + "filename" + ".png");
         }
-
-        try{
-            FileOutputStream fos = new FileOutputStream(file);
-            bm.compress(Bitmap.CompressFormat.JPEG, 90, fos);
-            fos.flush();
-            fos.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-
-   /* DrawView dv = new DrawView(this);
-    bitmap = dv.getDrawingCache();
-    try {
-        FileOutputStream fos = openFileOutput("name.png", Context.MODE_PRIVATE);
+        FileOutputStream fos = null;
+        fos = new FileOutputStream(f);
         bitmap.compress(Bitmap.CompressFormat.PNG, 10, fos);
-
         fos.close();
     } catch (IOException e) {
         e.printStackTrace();
-    }*/
+    }
 }
 
-
-
-    private File getMediaFile(){
-        File file = new File(Environment.getExternalStorageDirectory() +
-                            "/Android/data" +
-                            getApplicationContext().getPackageName() + "/Files");
-
-        if (!file.exists()){
-            if (!file.mkdirs()){
-                return null;
-            }
-        }
-
-
-        File mediaFile;
-        //String imageName = "MI_" +
-
-        return file;
-    }
-
-   /* public void onCheckedChanged(RadioGroup radioGroup, int clickedId){
-
-    }*/
-
-
-   /* public void editButtonClicked() {
-        //displays width and height
-        Display display = getWindowManager().getDefaultDisplay();
-
-        float displayWidth = display.getWidth();
-        float displayHeight = display.getHeight();
-
-        //ImageView imageView = findViewById(R.id.picture_imageView);
-        bitmap = Bitmap.createBitmap((int) displayWidth, (int) displayHeight, Bitmap.Config.ARGB_8888);
-
-        canvas = new Canvas(bitmap);
-        linePaint = new Paint();
-        linePaint.setColor(Color.CYAN);
-        imageView.setImageBitmap(bitmap);
-        imageView.setOnTouchListener((View.OnTouchListener) this);
-    }*/
-
-
-
-
-
-
-    /*SOURCE TO GET IMAGE FROM GALLERY
-    http://programmerguru.com/android-tutorial/how-to-pick-image-from-gallery/8
-    * */
-
-    //get picture from gallery
-   /* private void getImage(){
-
-        Intent getPicIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(getPicIntent, reqCode );
-    }*/
-/*SELECT IMAGE*/
-   /* @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-
-            //try {
-
-            if (requestCode == reqCode && resultCode == RESULT_OK && null != data) {
-                Uri selectPic = data.getData();
-                String[] image = {MediaStore.Images.Media.DATA};
-
-                //cursor
-                Cursor cursor = getContentResolver().query(selectPic, image, null, null, null);
-                //move cursor to 1st row
-                cursor.moveToFirst();
-
-                int columnIndex = cursor.getColumnIndex(image[0]);
-                String path = cursor.getString(columnIndex);
-                cursor.close();
-
-                // ImageView imageView = findViewById(R.id.picture_imageView);
-                //set image
-                //imageView.setImageBitmap(BitmapFactory.decodeFile(path));
-                Bitmap bitmap2 = BitmapFactory.decodeFile(path);
-
-                // DrawView drawView =findViewById(R.id.drawView);
-                // canvas.drawBitmap(imageView.getWidth(), imageView.getHeight());
-
-                //DrawView dv = findViewById(R.id.drawView);
-                // drawView.start();
-                //  imageView.setOnTouchListener((View.OnTouchListener) this);
-
-
-                //save image
-            /*case 2:
-                // if (requestCode == reqCode && resultCode == RESULT_OK) {
-                Bundle extras = data.getExtras();
-                Bitmap imageBitmap = (Bitmap) extras.get("data");
-                ImageView iv = findViewById(R.id.picture_imageView);
-                iv.setImageBitmap(imageBitmap);
-              /*  } else {
-                    Toast.makeText(getApplicationContext(), "An image has not been picked!",
-                            Toast.LENGTH_LONG).show();
-                }*
-                //break;
-
-            default:
-                break;
-       /* }catch (Exception e) {
-            Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
-        }*
-
-        }
-    }*
-            }*/
-
-    /*@Override
-    public boolean onTouchEvent(MotionEvent event) {
-        int touch = event.getAction();
-
-        drawLines(imageView);
-        switch (touch){
-            case MotionEvent.ACTION_DOWN:
-                xDown = event.getX();
-                yDown = event.getY();
-                break;
-
-            case  MotionEvent.ACTION_MOVE:
-                break;
-
-            case MotionEvent.ACTION_UP:
-                xUp = event.getX();
-                yUp = event.getY();
-                canvas.drawLine(xDown, yDown, xUp, yUp, linePaint);
-                imageView.invalidate();
-                break;
-
-            default:
-                break;
-        }
-
-        return super.onTouchEvent(event);
-
-    }*/
-
-    /*public void drawLines(ImageView imageView){
-        bitmap = Bitmap.createBitmap((int) imageView.getWidth(), (int) imageView.getHeight(), Bitmap.Config.ARGB_8888);
-        canvas = new Canvas(bitmap);
-        linePaint = new Paint();
-        linePaint.setColor(Color.BLACK);
-        linePaint.setStyle(Paint.Style.FILL);
-        //ImageView imageView = findViewById(R.id.drawView);
-        imageView.setImageBitmap(bitmap);
-
-      //  imageView.setOnTouchListener((View.OnTouchListener) this);
-    }*/
-
-    /*@Override
-    public boolean onTouch(View view, MotionEvent motionEvent) {
-
-        int touch = motionEvent.getAction();
-
-        switch (touch){
-            case MotionEvent.ACTION_DOWN:
-                xDown = motionEvent.getX();
-                yDown = motionEvent.getY();
-                break;
-
-            case  MotionEvent.ACTION_MOVE:
-                break;
-
-            case MotionEvent.ACTION_UP:
-                xUp = motionEvent.getX();
-                yUp = motionEvent.getY();
-                canvas.drawLine(xDown, yDown, xUp, yUp, linePaint);
-                imageView.invalidate();
-                break;
-
-            default:
-                break;
-        }
-        return false;
-    }*/
-
-
-   /* @Override
-    protected void onResume() {
-        super.onResume();
-
-        DrawView dv = findViewById(R.id.drawView);
-        dv.setup();
-    }*/
-/* @Override
-    protected void onPause() {
-        super.onPause();
-        DrawView dv = findViewById(R.id.drawView);
-        dv.stop();
-
-    }*/
 }
 
