@@ -78,7 +78,7 @@ public class DrawView extends View {
     public DrawView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setup();
-        rectangleSetUp();
+       rectangleSetUp();
     }
 
     public DrawView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -140,7 +140,7 @@ public class DrawView extends View {
         x = y = 0;
 
         recPaint = new Paint();
-        recPaint.setColor(Color.CYAN);
+        recPaint.setColor(color2);
         recPaint.setStyle(Paint.Style.STROKE);
 
     }
@@ -293,10 +293,15 @@ public class DrawView extends View {
     }
 
     private void touchUp(){
+        int tool = MainActivity.tools;
+
         path.lineTo(downX, downY);
 
-        canvas.drawPath(path, linePaint);
-
+        if (tool == 1) {
+            canvas.drawPath(path, linePaint);
+        }else if (tool == 0) {
+            canvas.drawRect(downX, downY, x, y, recPaint);
+        }
         path.reset();
     }
 
