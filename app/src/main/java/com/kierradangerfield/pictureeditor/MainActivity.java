@@ -1,49 +1,38 @@
+/*
+* Created by Kierra Dangerfield and Kurt Jones
+* */
+/*FEATURES
+1. CHANGE CANVAS BACKGROUND -->> able to change canvas background color to black or white
+        cb.setOnClickListener and canvasLight
+
+2. CHANGE BACKGROUND LAYOUT-> DAY/LIGHT MODE -->> layout change to white or gray
+         changeTextColorNight() and  changeTextColorDay()
+
+3. CLEAR CANVAS -->> clear your canvas
+        clearCanvas() -->>DrawView
+
+4. CHANGE STYLE -->> change style between stroke, fill, and stoke and fill
+        changeStyle(Paint.Style style) -->>DrawView
+* */
+
 package com.kierradangerfield.pictureeditor;
 /*SOURCES: https://stackoverflow.com/questions/15704205/how-to-draw-line-on-imageview-along-with-finger-in-android*/
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
-import android.media.MediaScannerConnection;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
-import android.support.constraint.solver.widgets.Rectangle;
-import android.util.Log;
-import android.view.Display;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URI;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
-import java.util.Random;
-
-/*FEATURES
-1. CHANGE CANVAS BACKGROUND
-2. CHANGE BACKGROUND LAYOUT-> DAY/LIGHT MODE
-3.
-*
-* */
 
 public class MainActivity extends Activity {
 
@@ -203,6 +192,7 @@ public class MainActivity extends Activity {
         findViewById(R.id.fill_radioButton);
         findViewById(R.id.strokeFill_radioButton);
         rg = findViewById(R.id.style_radioGroup);
+
         //change style---------->FEATURE**********************************************************************
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
