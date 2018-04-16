@@ -53,7 +53,6 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         final DrawView dv = findViewById(R.id.drawView);
-        dv.setup();
 
         RadioButton rb;
         recButton = findViewById(R.id.rec_radioButton);
@@ -61,21 +60,19 @@ public class MainActivity extends Activity {
         rb = findViewById(R.id.line_radioButton);
         rb.setChecked(true);
 
-
         //tools radio group
         //RadioGroup radioGroup = findViewById(R.id.tools
        RadioGroup rg =  findViewById(R.id.tools_radioGroup);
        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
            @Override
            public void onCheckedChanged(RadioGroup radioGroup, int id) {
-               DrawView dv = findViewById(R.id.drawView);
+
                if (id == R.id.rec_radioButton){
                    tools = 0;
 
                }else if (id == R.id.line_radioButton){
                    tools = 1;
                }
-
            }
        });
 
@@ -88,7 +85,7 @@ public class MainActivity extends Activity {
      rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
          @Override
          public void onCheckedChanged(RadioGroup radioGroup, int id) {
-            // RadioButton rb = id;
+
              DrawView dv = findViewById(R.id.drawView);
 
              if (id == R.id.small_radioButton){
@@ -105,9 +102,7 @@ public class MainActivity extends Activity {
 
     RadioButton color_rb = findViewById(R.id.black_radioButton);
     color_rb.setChecked(true);
-   // color_rb = findViewById(R.id.cyan_radioButton);
-        findViewById(R.id.cyan_radioButton);
-       // color_rb.setChecked(true);
+    findViewById(R.id.cyan_radioButton);
     findViewById(R.id.red_radioButton);
 
     RadioGroup color_radioGroup = findViewById(R.id.color_radioGroup);
@@ -129,7 +124,7 @@ public class MainActivity extends Activity {
         }
     });
 
-        //change canvas color----------->>>>FEATURE**********************************************************************
+   //change canvas color----------->>>>FEATURE**********************************************************************
   final Button cb = findViewById(R.id.canvasBackgroundColor_button);
 
   cb.setOnClickListener(new View.OnClickListener() {
@@ -225,9 +220,8 @@ public class MainActivity extends Activity {
                 save();
             }
         });
-
-
     }
+
     int[] ids = {R.id.rec_radioButton, R.id.line_radioButton, R.id.small_radioButton,
     R.id.Medium_radioButton, R.id.large_radioButton, R.id.black_radioButton, R.id.cyan_radioButton,
     R.id.red_radioButton, R.id.stroke_radioButton, R.id.fill_radioButton, R.id.strokeFill_radioButton};
